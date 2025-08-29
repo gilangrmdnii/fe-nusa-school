@@ -1,23 +1,17 @@
 import "./globals.css";
-import { AppProvider } from "@/context/AppContext";
-import Sidebar from "@/components/layout/Sidebar";
-import Navbar from "@/components/layout/Navbar";
+import type { Metadata } from "next";
+import { Providers } from "./providers";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const metadata: Metadata = {
+  title: "Nusa School - Sistem Manajemen Sekolah",
+  description: "Platform manajemen sekolah terintegrasi",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="flex min-h-screen bg-gray-50">
-        <AppProvider>
-          <Sidebar />
-          <div className="flex-1 flex flex-col">
-            <Navbar />
-            <main className="flex-1 p-6">{children}</main>
-          </div>
-        </AppProvider>
+    <html lang="id">
+      <body className="min-h-screen bg-gray-50 antialiased">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

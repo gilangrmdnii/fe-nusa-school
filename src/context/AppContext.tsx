@@ -1,33 +1,28 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
 
-type User = {
-  name: string;
-  role: string;
-};
+import { createContext, useContext, useState } from "react";
 
 type AppContextType = {
-  user: User | null;
-  setUser: (user: User | null) => void;
+  sidebarOpen: boolean;
+  toggleSidebar: () => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
-export const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>({
-    name: "Budi Santoso",
-    role: "Admin"
-  });
+export function AppProvider({ children }: { children: React.ReactNode }) {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
   return (
-    <AppContext.Provider value={{ user, setUser }}>
+    <AppContext.Provider value={{ sidebarOpen, toggleSidebar }}>
       {children}
     </AppContext.Provider>
   );
-};
+}
 
-export const useAppContext = () => {
-  const ctx = useContext(AppContext);
-  if (!ctx) throw new Error("useAppContext must be used within AppProvider");
-  return ctx;
-};
+export function useApp() {
+  const context = useContext(AppContext);
+  if (!context) throw new Error("useApp must be used inside AppProvider");
+  return context;
+}
